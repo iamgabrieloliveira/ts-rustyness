@@ -1,11 +1,11 @@
-import { NoneUnwraped } from "./exceptions/none-unwraped-exception";
+import { NoneUnwraped } from './exceptions/none-unwraped-exception';
 
-type MatchStatement<T, R> = {
+export type MatchStatement<T, R> = {
   some: (value: T) => R,
   none: () => R,
 }
 
-interface OptionInterface<T> {
+export interface OptionInterface<T> {
   isNone(): boolean;
   isSome(): boolean;
   isSomeAnd(callback: (v: T) => boolean): boolean;
@@ -17,7 +17,7 @@ interface OptionInterface<T> {
   match<R>(data: MatchStatement<T, R>): R;
 }
 
-class Some<T> implements OptionInterface<T> {
+export class Some<T> implements OptionInterface<T> {
   constructor(private value: T) { }
 
   isNone(): boolean {
