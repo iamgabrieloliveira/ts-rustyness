@@ -25,7 +25,7 @@ npm install ts-rustyness
 The Option type is used to handle nullable values.
 
 ```ts
-import { some, none, Option } from 'ts-rustyness/option';
+import { some, none, type Option } from 'ts-rustyness/option';
 
 // Creating an Option with a value
 const someValue: Option<number> = some(42);
@@ -43,7 +43,7 @@ console.log(noValue.unwrap());   // Output: Error: Attempted to unwrap None
 The Result type is used to handle operation outcomes, either success or error.
 
 ```ts
-import { ok, err, Result } from 'ts-rustyness/result';
+import { ok, err, type Result } from 'ts-rustyness/result';
 
 // Defining a function that returns a Result
 const divide = (x: number, y: number): Result<number, string> => {
