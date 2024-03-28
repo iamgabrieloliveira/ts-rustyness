@@ -1,5 +1,10 @@
 import { NoneUnwraped } from "./exceptions/none-unwraped-exception";
 
+type MatchStatement<T, R> = {
+  some: (value: T) => R,
+  none: () => R,
+}
+
 interface OptionInterface<T> {
   isNone(): boolean;
   isSome(): boolean;
@@ -9,6 +14,7 @@ interface OptionInterface<T> {
   expect(message: string): T;
   map(callback: (v: T) => T): Option<T>;
   mapOr(callback: (v: T) => T, fallback: T): T;
+  match<R>(data: MatchStatement<T, R>): R;
 }
 
 class Some<T> implements OptionInterface<T> {
@@ -45,6 +51,10 @@ class Some<T> implements OptionInterface<T> {
   mapOr(callback: (v: T) => T, _: T): T {
     return callback(this.value);
   }
+
+  match<R>({ some }: MatchStatement<T, R>): R {
+    return some(this.value);
+  }
 }
 
 class None implements OptionInterface<never> {
@@ -78,6 +88,10 @@ class None implements OptionInterface<never> {
 
   mapOr<T>(_: (v: T) => T, fallback: T): T {
     return fallback;
+  }
+
+  match<R>({ none }: MatchStatement<never, R>): R {
+    return none();
   }
 }
 

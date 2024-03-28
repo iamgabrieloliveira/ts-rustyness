@@ -54,3 +54,20 @@ it('~mapOr', () => {
   expect(none.mapOr((value) => value * 2, 999)).toBe(999);
 });
 
+it('~match', () => {
+  const maybe = (x: number) => x > 10 ? some(x) : none;
+
+  const result1 = maybe(5).match({
+    some: () => 'greather',
+    none: () => 'less',
+  });
+
+  const result2 = maybe(15).match({
+    some: (value) => value + 10,
+    none: () => 69,
+  });
+
+  expect(result1).toBe('less');
+  expect(result2).toBe(25);
+});
+
