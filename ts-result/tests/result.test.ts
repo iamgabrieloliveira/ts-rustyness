@@ -25,3 +25,20 @@ it('~isErrAnd', () => {
   expect(ok('ok').isErrAnd(e => e === 'ok')).toBe(false);
   expect(ok('ok').isErrAnd(e => e === 'okay')).toBe(false);
 });
+
+it('~match', () => {
+  const errIfLessThanTen = (x: number) => x > 10 ? ok('ok') : err('err');
+
+  const a = errIfLessThanTen(5).match({
+    ok: (value) => `assert-${value}`,
+    err: (value) => `assert-${value}`,
+  });
+
+  const b = errIfLessThanTen(11).match({
+    ok: (value) => `assert-${value}`,
+    err: (value) => `assert-${value}`,
+  });
+
+  expect(a).toBe('assert-err');
+  expect(b).toBe('assert-ok');
+});

@@ -1,11 +1,17 @@
-export interface IResult<T, E> {
+type MatchStatement<T, E, R> = {
+  ok: (value: T) => R,
+  err: (err: E) => R,
+}
+
+export interface ResultInterface<T, E> {
   isOk(): boolean;
   isErr(): boolean;
   isOkAnd(callback: (value: T) => boolean): boolean,
   isErrAnd(callback: (value: E) => boolean): boolean,
+  match<R>(data: MatchStatement<T, E, R>): R,
 }
 
-export class Ok<T> implements IResult<T, never> {
+export class Ok<T> implements ResultInterface<T, never> {
   constructor(private value: T) { }
 
   isOk(): boolean {
@@ -23,9 +29,13 @@ export class Ok<T> implements IResult<T, never> {
   isErrAnd(_: (err: never) => boolean): boolean {
     return false;
   }
+
+  match<R>({ ok }: MatchStatement<T, never, R>): R {
+    return ok(this.value);
+  }
 }
 
-export class Err<E> implements IResult<never, E> {
+export class Err<E> implements ResultInterface<never, E> {
   constructor(private error: E) { }
 
   isOk(): boolean {
@@ -42,6 +52,10 @@ export class Err<E> implements IResult<never, E> {
 
   isErrAnd(callback: (value: E) => boolean): boolean {
     return callback(this.error);
+  }
+
+  match<R>({ err }: MatchStatement<never, E, R>): R {
+    return err(this.error);
   }
 }
 
