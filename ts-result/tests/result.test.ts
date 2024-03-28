@@ -1,4 +1,5 @@
 import { ok, err } from '../src';
+import { ErrUnwraped } from '../src/exceptions/err-unwraped-exception';
 
 it('~isError', () => {
   expect(err('error-message').isErr()).toBe(true);
@@ -41,4 +42,14 @@ it('~match', () => {
 
   expect(a).toBe('assert-err');
   expect(b).toBe('assert-ok');
+});
+
+it('~unwrap', () => {
+  const errIfLessThanTen = (x: number) => x > 10 ? ok('ok') : err('err');
+
+  const a = errIfLessThanTen(20);
+  const b = errIfLessThanTen(5);
+
+  expect(a.unwrap()).toBe('ok');
+  expect(() => b.unwrap()).toThrow(ErrUnwraped);
 });

@@ -1,3 +1,5 @@
+import { ErrUnwraped } from "./exceptions/err-unwraped-exception";
+
 type MatchStatement<T, E, R> = {
   ok: (value: T) => R,
   err: (err: E) => R,
@@ -9,6 +11,7 @@ export interface ResultInterface<T, E> {
   isOkAnd(callback: (value: T) => boolean): boolean,
   isErrAnd(callback: (value: E) => boolean): boolean,
   match<R>(data: MatchStatement<T, E, R>): R,
+  unwrap(): T,
 }
 
 export class Ok<T> implements ResultInterface<T, never> {
@@ -33,6 +36,10 @@ export class Ok<T> implements ResultInterface<T, never> {
   match<R>({ ok }: MatchStatement<T, never, R>): R {
     return ok(this.value);
   }
+
+  unwrap(): T {
+    return this.value;
+  }
 }
 
 export class Err<E> implements ResultInterface<never, E> {
@@ -56,6 +63,10 @@ export class Err<E> implements ResultInterface<never, E> {
 
   match<R>({ err }: MatchStatement<never, E, R>): R {
     return err(this.error);
+  }
+
+  unwrap(): never {
+    throw new ErrUnwraped();
   }
 }
 
