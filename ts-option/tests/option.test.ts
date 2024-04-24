@@ -1,5 +1,5 @@
-import { some, none } from "../src";
-import { NoneUnwraped } from '../src/exceptions/none-unwraped-exception';
+import { some, none, type Option } from '../src';
+import { NoneUnwrapped } from '../src/exceptions/none-unwrapped-exception';
 
 it('~isSome', () => {
   expect(some('hello')
@@ -13,7 +13,7 @@ it('~isNone', () => {
 });
 
 it('~unwrap', () => {
-  expect(() => none.unwrap()).toThrow(NoneUnwraped);
+  expect(() => none.unwrap()).toThrow(NoneUnwrapped);
   expect(some('value').unwrap()).toBe('value');
 });
 
@@ -27,10 +27,10 @@ it('~unwrapOr', () => {
 
 it('~expect', () => {
   expect(
-    () => none.expect('number must be greather than 10')
-  ).toThrow('number must be greather than 10');
+    () => none.expect('number must be greater than 10')
+  ).toThrow('number must be greater than 10');
 
-  expect(some(11).expect('number must be greather than 10')).toBe(11);
+  expect(some(11).expect('number must be greater than 10')).toBe(11);
 });
 
 it('~isSomeAnd', () => {
@@ -55,10 +55,10 @@ it('~mapOr', () => {
 });
 
 it('~match', () => {
-  const maybe = (x: number) => x > 10 ? some(x) : none;
+  const maybe = (x: number) : Option<number> => x > 10 ? some(x) : none;
 
   const result1 = maybe(5).match({
-    some: () => 'greather',
+    some: () => 'greater',
     none: () => 'less',
   });
 
