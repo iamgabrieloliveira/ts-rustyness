@@ -1,6 +1,6 @@
 {
   "name": "ts-rustyness",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TS Rustyness is a TypeScript library designed to enhance type safety in your projects.",
   "main": "src/index.ts",
   "scripts": {

@@ -2,8 +2,7 @@ import { some, none, type Option } from '../src';
 import { NoneUnwrapped } from '../src/exceptions/none-unwrapped-exception';
 
 it('~isSome', () => {
-  expect(some('hello')
-    .isSome()).toBe(true)
+  expect(some('hello').isSome()).toBe(true)
   expect(none.isSome()).toBe(false);
 });
 
@@ -18,10 +17,9 @@ it('~unwrap', () => {
 });
 
 it('~unwrapOr', () => {
-  expect(
-    none.unwrapOr('default-value')
-  ).toBe('default-value');
-
+  const value : Option<string> = none;
+  
+  expect(value.unwrapOr('default-value')).toBe('default-value');
   expect(some('value').unwrapOr('default-value')).toBe('value');
 });
 
